@@ -4,7 +4,7 @@
 
 // Package packet implements parsing and serialization of OpenPGP packets, as
 // specified in RFC 4880.
-package packet // import "golang.org/x/crypto/openpgp/packet"
+package packet
 
 import (
 	"bufio"
@@ -15,6 +15,7 @@ import (
 	"io"
 	"math/big"
 
+	"github.com/dgryski/go-idea"
 	"golang.org/x/crypto/cast5"
 	"golang.org/x/crypto/openpgp/errors"
 )
@@ -441,6 +442,7 @@ func (pka PublicKeyAlgorithm) CanSign() bool {
 type CipherFunction uint8
 
 const (
+	CipherIDEA   CipherFunction = 1
 	Cipher3DES   CipherFunction = 2
 	CipherCAST5  CipherFunction = 3
 	CipherAES128 CipherFunction = 7
@@ -451,6 +453,8 @@ const (
 // KeySize returns the key size, in bytes, of cipher.
 func (cipher CipherFunction) KeySize() int {
 	switch cipher {
+	case CipherIDEA:
+		return 16
 	case Cipher3DES:
 		return 24
 	case CipherCAST5:
@@ -468,6 +472,8 @@ func (cipher CipherFunction) KeySize() int {
 // blockSize returns the block size, in bytes, of cipher.
 func (cipher CipherFunction) blockSize() int {
 	switch cipher {
+	case CipherIDEA:
+		return 8
 	case Cipher3DES:
 		return des.BlockSize
 	case CipherCAST5:
@@ -481,6 +487,8 @@ func (cipher CipherFunction) blockSize() int {
 // new returns a fresh instance of the given cipher.
 func (cipher CipherFunction) new(key []byte) (block cipher.Block) {
 	switch cipher {
+	case CipherIDEA:
+		block, _ = idea.NewCipher(key)
 	case Cipher3DES:
 		block, _ = des.NewTripleDESCipher(key)
 	case CipherCAST5:

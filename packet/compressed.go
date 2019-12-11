@@ -8,9 +8,10 @@ import (
 	"compress/bzip2"
 	"compress/flate"
 	"compress/zlib"
-	"golang.org/x/crypto/openpgp/errors"
 	"io"
 	"strconv"
+
+	"golang.org/x/crypto/openpgp/errors"
 )
 
 // Compressed represents a compressed OpenPGP packet. The decompressed contents
@@ -47,6 +48,8 @@ func (c *Compressed) parse(r io.Reader) error {
 	}
 
 	switch buf[0] {
+	case 0:
+		c.Body = r
 	case 1:
 		c.Body = flate.NewReader(r)
 	case 2:
