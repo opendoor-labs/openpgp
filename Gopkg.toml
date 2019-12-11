@@ -27,12 +27,12 @@
 
 [[constraint]]
   branch = "master"
+  name = "github.com/dgryski/go-idea"
+
+[[constraint]]
+  branch = "master"
   name = "golang.org/x/crypto"
 
 [prune]
   go-tests = true
   unused-packages = true
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/dgryski/go-idea"

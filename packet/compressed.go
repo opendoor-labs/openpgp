@@ -11,7 +11,7 @@ import (
 	"io"
 	"strconv"
 
-	"golang.org/x/crypto/openpgp/errors"
+	"github.com/opendoor-labs/openpgp/errors"
 )
 
 // Compressed represents a compressed OpenPGP packet. The decompressed contents

@@ -22,8 +22,8 @@ import (
 	"strconv"
 	"time"
 
-	"golang.org/x/crypto/openpgp/elgamal"
-	"golang.org/x/crypto/openpgp/errors"
+	"github.com/opendoor-labs/openpgp/elgamal"
+	"github.com/opendoor-labs/openpgp/errors"
 )
 
 var (
